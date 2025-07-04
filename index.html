@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="index.js" defer></script>
+</head>
+
+<body>
+    <h1>
+        Library
+    </h1>
+    <button class="add">Add</button>
+    <div class="modal add-book-container hidden">
+        <form class="form" onsubmit="return false">
+            <label class="title" for="title">Title:</label>
+            <input class="title" type="text" id="title" name="title">
+
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author">
+
+            <label for="number">Pages:</label>
+            <input type="number" id="numPages" name="numPages" min="3">
+            <label for="status">Read:
+                <input type="checkbox" class="check">
+            </label>
+                <input class="submit" type="submit" value="Submit" />
+            <input class="edit hidden" type="submit" value="Edit" />
+        </form>
+    </div>
+
+    <div class="overlay hidden"></div>
+    <div class="library">
+    </div>
+</body>
+
+</html>
