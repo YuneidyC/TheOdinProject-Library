@@ -10,7 +10,6 @@ const submit = document.querySelector('.submit');
 add.addEventListener('click', () => {
     modal.childNodes[1][4].classList.remove('hidden');
     modal.childNodes[1][5].classList.add('hidden');
-    console.log(modal.childNodes);
     openModal();
 });
 
@@ -29,7 +28,6 @@ function addBookToLibrary(title, author, numPages, read) {
     const newBook = new Book(title, author, numPages, read);
     myLibrary.push(newBook);
     addBookCard(newBook);
-    console.log(myLibrary);
 };
 
 function checkIfBookAlreadyExist(title) {
