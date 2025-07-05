@@ -139,10 +139,11 @@ function createDeleteButton(container, parent) {
     const deleteButton = document.createElement('button');
 
     deleteButton.classList.add('delete-btn');
-    deleteButton.textContent = 'Remove'
+    deleteButton.textContent = 'Delete'
     container.appendChild(deleteButton);
 
     deleteButton.addEventListener('click', () => {
+        removeBookFromLibrary(parent);
         parent.remove();
     });
 }
@@ -213,8 +214,8 @@ function editBook(indexArr) {
     }
 }
 
-function removeBookFromLibrary(id) {
-    const idx = myLibrary.findIndex(book => book.id === id);
+function removeBookFromLibrary(parent) {
+    const idx = myLibrary.findIndex(({ search }) => search === parseInt(parent.classList[1]));
 
     if (idx !== -1) {
         myLibrary.splice(idx, 1);
