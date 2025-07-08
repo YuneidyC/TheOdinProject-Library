@@ -15,147 +15,145 @@ body {
   min-height: 100vh;
   background-color: var(--dark-lava);
   font-family: 'Courier New', Courier, monospace;
-}
 
-.modal {
-  width: 300px;
-  height: 240px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.4rem;
-  position: absolute;
-  z-index: 2;
-  margin: 0 auto;
-  border: 1px solid var(--pale-silver);
-  border-radius: 10px;
-  padding: 20px;
-  background-color: var(--middle-grey);
-  top: 30%;
-}
-
-.close {
-  color: var(--dark-lava);
-  font-size: 20px;
-  font-weight: bold;
-  top: 0;
-  right: 0;
-  position: absolute;
-  padding: 4px 14px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.close:hover,
-.close:focus {
-  color: var(--pale-silver);
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
-  z-index: 1;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-
-  label {
-    font-weight: 600;
-  }
-
-  input {
-    margin: 4px 0;
-    border: 10px;
-    padding: 4px;
-    text-indent: 8px;
-  }
-
-  .submit,
-  .edit {
-    width: 80px;
-    text-indent: 0;
-    margin: 10px auto 0;
-    background-color: var(--melon);
+  .modal {
+    width: 300px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    position: absolute;
+    z-index: 2;
+    margin: 0 auto;
     border: 1px solid var(--pale-silver);
-    border-radius: 6px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--middle-grey);
+    top: 30%;
+
+    .close {
+      color: var(--dark-lava);
+      font-size: 20px;
+      font-weight: bold;
+      top: 0;
+      right: 0;
+      position: absolute;
+      padding: 4px 14px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+  }
+
+  .close:hover,
+  .close:focus {
+    color: var(--pale-silver);
+    text-decoration: none;
     cursor: pointer;
   }
 
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 1;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: 600;
+    }
+
+    input {
+      margin: 4px 0;
+      border: 10px;
+      padding: 4px;
+      text-indent: 8px;
+    }
+
+    .submit,
+    .edit {
+      width: 80px;
+      text-indent: 0;
+      margin: 10px auto 0;
+      border: 1px solid var(--pale-silver);
+      border-radius: 6px;
+    }
+
+    #numPages {
+      width: 100px;
+    }
+
+    select {
+      width: 100px;
+    }
+  }
+
+  .add {
+    cursor: pointer;
+  }
+
+  .library {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    margin: 0 auto;
+    row-gap: 30px;
+    padding-top: 30px;
+
+    .book-card {
+      width: 287px;
+      border: 1px solid var(--pale-silver);
+      border-radius: 10px;
+      padding: 20px;
+      background-color: var(--middle-grey);
+      justify-self: center;
+  
+      h3 {
+        text-align: center;
+        margin: 0;
+      }
+    }
+  }
+
+  .button-container {
+    width: 220px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+    margin: 0 auto;
+  }
+
+  button,
+  .submit,
+  .edit {
+    background-color: var(--melon);
+    border: 1px solid var(--pale-silver);
+    border-radius: 5px;
+    height: 30px;
+    width: 120px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  button:hover,
   .submit:hover,
   .edit:hover {
     background-color: var(--isabelline);
   }
 
-  #numPages {
-    width: 100px;
+  .hidden {
+    display: none;
   }
-
-  select {
-    width: 100px;
-  }
-}
-
-.add {
-  cursor: pointer;
-}
-
-.library {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 0 auto;
-  gap: 30px;
-  padding-top: 30px;
-
-  .book-card {
-    width: 287px;
-    border: 1px solid var(--pale-silver);
-    border-radius: 10px;
-    padding: 20px;
-    background-color: var(--middle-grey);
-
-    h3 {
-      text-align: center;
-      margin: 0;
-    }
-  }
-}
-
-.button-container {
-  width: 220px;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 20px;
-  margin: 0 auto;
-}
-
-button {
-  background-color: var(--melon);
-  border: 1px solid var(--pale-silver);
-  border-radius: 5px;
-  height: 30px;
-  width: 100px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-button:hover {
-  background-color: var(--isabelline);
-}
-
-.hidden {
-  display: none;
 }
