@@ -213,9 +213,33 @@ function editBook(indexArr) {
 }
 
 function removeBookFromLibrary(parent) {
-    const idx = myLibrary.findIndex(({ search }) => search === parseInt(parent.classList[1]));
+    const idx = myLibrary.findIndex(({ index }) => index === parseInt(parent.classList[1]));
+    const arrBookCards = document.getElementsByClassName('book-card');
+    const editButton = document.getElementsByClassName('edit-btn');
 
     if (idx !== -1) {
         myLibrary.splice(idx, 1);
+
+        removeClassIdBookCards(idx, arrBookCards);
+
+        for (let i = 0; i < myLibrary.length; i++) {
+            let incr = i + 1;
+            myLibrary[i].index = incr;
+            arrBookCards[i].classList.add(incr);
+            editButton[i].id = incr;
+        }
+    }
+}
+
+function removeClassIdBookCards(idx, elements) {
+    for (let i = 0; i < elements.length; i++) {
+        if (i === idx) {
+            elements[idx].remove();
+        }
+
+        if (elements[i] !== undefined) {
+            let classRemove = elements[i].classList[1];
+            elements[i].classList.remove(classRemove);
+        }
     }
 }
