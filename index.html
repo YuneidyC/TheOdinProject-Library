@@ -19,18 +19,25 @@
     </button>
     <div class="modal add-book-container hidden">
         <form class="form" onsubmit="return false">
-            <label class="title" for="title">Title:</label>
-            <input class="title" type="text" id="title" name="title">
-
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author">
-
-            <label for="number">Pages:</label>
-            <input type="number" id="numPages" name="numPages" min="3">
-            <label for="status">Read:
-                <input type="checkbox" class="check">
+            <label class="title" for="title">Title:
+                <input class="title" type="text" id="title" name="title">
             </label>
-                <input class="submit" type="submit" value="Submit" />
+
+            <label for="author">Author:
+                <input type="text" id="author" name="author">
+            </label>
+
+            <label for="number">Pages:
+                <input
+                 type="number" id="numPages" name="numPages" min="3">
+            </label>
+
+            <div>
+                <input type="checkbox" class="check">
+                <label for="status">Read:</label>
+            </div>
+
+            <input class="submit" type="submit" value="Submit" />
             <input class="edit hidden" type="submit" value="Edit" />
         </form>
     </div>
