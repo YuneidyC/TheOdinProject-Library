@@ -101,7 +101,7 @@ function addBookCard(newBook) {
     card.className = `book-card ${myLibrary.length}`;
     library.appendChild(card);
 
-    const cardHeader = document.createElement('h3');
+    const cardHeader = document.createElement('h2');
     cardHeader.classList.add('book-card_title');
     cardHeader.innerHTML = book.title;
     card.appendChild(cardHeader);
