@@ -1,6 +1,6 @@
 :root {
-  --dark-lava: #463F3A;
-  --middle-grey: #8A817C;
+  --dark-lava: #5c5c5c;
+  --middle-grey: #443f3c;
   --pale-silver: #BCB8B1;
   --isabelline: #F4F3EE;
   --melon: #E0AFA0;
@@ -117,7 +117,7 @@ body {
       background-color: var(--middle-grey);
       justify-self: center;
   
-      h3 {
+      h2 {
         text-align: center;
         margin: 0;
       }
