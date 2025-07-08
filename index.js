@@ -7,9 +7,9 @@ const body = document.querySelector('body');
 const edit = document.querySelector('.edit');
 const submit = document.querySelector('.submit');
 
-add.addEventListener('click', () => {
-    modal.childNodes[1][4].classList.remove('hidden');
-    modal.childNodes[1][5].classList.add('hidden');
+add.addEventListener('click', (e) => {
+    submit.classList.remove('hidden');
+    edit.classList.add('hidden');
     openModal();
 });
 
@@ -19,7 +19,7 @@ function Book(title, author, numPages, read) {
     this.author = author;
     this.numPages = numPages;
     this.read = read;
-    this.search = myLibrary.length + 1;
+    this.index = myLibrary.length + 1;
 }
 
 addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false);
@@ -34,9 +34,13 @@ function checkIfBookAlreadyExist(title) {
     return myLibrary.find(book => title === book.title);
 };
 
-function openModal() {
+function openModal(id) {
     overlay.classList.remove('hidden');
     modal.classList.remove('hidden');
+
+    if (id !== null) {
+        modal.dataset.bookId = id;
+    }
 
     modal.children[0][0].value = '';
     modal.children[0][1].value = '';
@@ -52,7 +56,7 @@ function createModal() {
     spanClose.textContent = "x"
     spanClose.classList.add('close');
 
-    spanClose.onclick = function () {
+    spanClose.onclick = function (e) {
         modal.classList.add('hidden');
         overlay.classList.add('hidden');
     }
@@ -61,8 +65,6 @@ function createModal() {
 }
 
 function handleSubmit(event) {
-    event.preventDefault();
-
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = parseInt(document.getElementById('numPages').value);
@@ -82,9 +84,7 @@ function handleSubmit(event) {
     }
 
     if (event.submitter.value === 'Edit') {
-        const indexArr = myLibrary.findIndex(( book ) => book.title === title);
-
-        editBook(indexArr);
+        editBook(modal.dataset.bookId, title, author, pages, checkbox);
 
         edit.classList.remove('hidden');
         submit.classList.add('hidden');
@@ -93,8 +93,8 @@ function handleSubmit(event) {
     }
 }
 
-function addBookCard() {
-    const lastBook = myLibrary[myLibrary.length - 1];
+function addBookCard(newBook) {
+    const book = myLibrary.find(book => book.id === newBook.id);
     const library = document.querySelector('.library');
 
     const card = document.createElement('div');
@@ -102,18 +102,22 @@ function addBookCard() {
     library.appendChild(card);
 
     const cardHeader = document.createElement('h3');
-    cardHeader.innerHTML = lastBook.title;
+    cardHeader.classList.add('book-card_title');
+    cardHeader.innerHTML = book.title;
     card.appendChild(cardHeader);
 
     const cardAuthor = document.createElement('p');
-    cardAuthor.innerHTML = '<strong>Author: </strong>' + lastBook.author;
+    cardAuthor.classList.add('book-card_author');
+    cardAuthor.innerHTML = '<strong>Author: </strong>' + book.author;
     card.appendChild(cardAuthor);
 
     const cardPages = document.createElement('p');
-    cardPages.innerHTML = '<strong>Pages: </strong>' + lastBook.numPages;
+    cardPages.classList.add('book-card_pages');
+    cardPages.innerHTML = '<strong>Pages: </strong>' + book.numPages;
     card.appendChild(cardPages);
 
     const status = document.createElement('p');
+    status.classList.add('book-card_read');
     status.innerHTML = '<strong>Read: </strong>';
     card.appendChild(status);
 
@@ -123,7 +127,7 @@ function addBookCard() {
     checkbox.disabled = true;
     status.appendChild(checkbox);
 
-    checkbox.checked = lastBook.read;
+    checkbox.checked = book.read;
 
     const buttonContainer = document.createElement('div');
     card.appendChild(buttonContainer);
@@ -135,80 +139,65 @@ function addBookCard() {
 
 function createDeleteButton(container, parent) {
     const deleteButton = document.createElement('button');
-
     deleteButton.classList.add('delete-btn');
     deleteButton.textContent = 'Delete'
+
     container.appendChild(deleteButton);
 
-    deleteButton.addEventListener('click', () => {
+    deleteButton.addEventListener('click', (event) => {
         removeBookFromLibrary(parent);
         parent.remove();
+        event.preventDefault();
     });
 }
 
 function createEditButton(container, parent) {
     const editButton = document.createElement('button');
-
     editButton.classList.add('edit-btn');
     editButton.textContent = 'Edit'
+    editButton.id = parent.classList[1];
 
     container.appendChild(editButton);
 
     editButton.addEventListener('click', () => {
-        openModal();
-        const titleInput = parent.childNodes[0].innerHTML;
-        const authorInput = parent.childNodes[1].lastChild.data;
-        const pagesInput = parent.childNodes[2].lastChild.data;
+        openModal(editButton.id);
 
-        modal.childNodes[1][4].classList.add('hidden');
-        modal.childNodes[1][5].classList.remove('hidden');
+        const book = myLibrary.find(x => x.index === parseInt(editButton.id));
 
-        modal.children[0][0].value = titleInput;
-        modal.children[0][1].value = authorInput;
-        modal.children[0][2].value = pagesInput;
+        submit.classList.add('hidden');
+        edit.classList.remove('hidden');
+
+        modal.children[0][0].value = book.title;
+        modal.children[0][1].value = book.author;
+        modal.children[0][2].value = book.numPages;
+        modal.children[0][3].checked = book.read;
     });
 };
 
-function editBook(indexArr) {
-    const titleInput = document.querySelector('#title');
-    const authorInput = document.querySelector('#author');
-    const pagesInput = document.querySelector('#numPages');
+function editBook(bookId, titleInput, authorInput, pagesInput, checkbox) {
     const cardBook = document.getElementsByClassName('book-card');
-    const checkbox = document.querySelector('.check');
 
-    const idx = parseInt(cardBook[indexArr].className.split(' ')[1]);
-    const book = myLibrary.find(({ search }) => search === idx);
+    const idx = parseInt(bookId);
+    const book = myLibrary.find(x => x.index === idx);
 
-    titleInput.addEventListener('input', () => {
-        titleInput.textContent = titleInput.value;
-    });
-
-    authorInput.addEventListener('input', () => {
-        authorInput.textContent = authorInput.value;
-    });
-
-    pagesInput.addEventListener('input', () => {
-        pagesInput.textContent = pagesInput.value;
-    });
-
-    if (checkbox.checked !== book.read) {
-        book.read = checkbox.checked;
-        cardBook[idx - 1].children[3].childNodes[1].checked = checkbox.checked;
+    if (checkbox !== book.read) {
+        book.read = checkbox;
+        cardBook[idx - 1].children[3].childNodes[1].checked = book.read;
     }
 
     if (titleInput !== book.title) {
-        book.title = titleInput.value;
-        cardBook[idx - 1].children[0].innerHTML = titleInput.value;
+        book.title = titleInput;
+        cardBook[idx - 1].children[0].innerHTML = book.title;
     }
 
     if (authorInput !== book.author) {
-        book.author = authorInput.value;
-        cardBook[idx - 1].children[1].lastChild.data = authorInput.value;
+        book.author = authorInput;
+        cardBook[idx - 1].children[1].lastChild.data = book.author;
     }
 
-    if (pagesInput !== book.pages) {
-        book.numPages = parseInt(pagesInput.value);
-        cardBook[idx - 1].children[2].lastChild.data = parseInt(pagesInput.value);
+    if (parseInt(pagesInput) !== book.numPages) {
+        book.numPages = parseInt(pagesInput);
+        cardBook[idx - 1].children[2].lastChild.data = book.numPages;
     }
 }
 
